@@ -56,3 +56,9 @@ SQL Analytics
 ETL Pipeline Design
 Business KPI Development
 Operational Analytics
+
+## Interactive Dashboard
+
+The analytics platform also includes a Streamlit dashboard for exploring key business metrics.
+
+Run the dashboard locally:
