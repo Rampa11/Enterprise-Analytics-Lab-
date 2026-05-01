@@ -235,7 +235,7 @@ but by solving real business problems.”
 
     with col1:
         if st.button("🚀 Start Learning", use_container_width=True):
-            st.switch_page("pages/0_login.py")
+            st.switch_page("pages/0_Login.py")
 
     with col2:
         if st.button("💳 View Pricing", use_container_width=True):
