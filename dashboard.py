@@ -156,7 +156,7 @@ if "payment_success" in params:
 # ---------------------------------
 if "user" not in st.session_state:
 
-    # LOGO + TITLE
+    
     col1, col2 = st.columns([1, 3])
 
     with col1:
@@ -168,7 +168,7 @@ if "user" not in st.session_state:
 
     st.markdown("---")
 
-    # HERO CARD (GLASS UI)
+    
     st.markdown("""
     <div style="
     background: rgba(0,0,0,0.5);
@@ -180,14 +180,14 @@ if "user" not in st.session_state:
     ">
     """, unsafe_allow_html=True)
 
-    # 🔥 IMPROVED TAB UX
+    
     tab = st.radio(
         "Explore",
         ["🌍 Vision", "🎯 Mission", "📈 Goals"],
         horizontal=True
     )
 
-    # 🔥 CONTENT SWITCHING (same logic, cleaner)
+    
     if "Vision" in tab:
         st.markdown("### 🌍 Vision")
         st.write(
@@ -230,7 +230,7 @@ but by solving real business problems.”
 
     st.markdown("---")
 
-    # 🔥 CTA SECTION
+
     col1, col2 = st.columns(2)
 
     with col1:
