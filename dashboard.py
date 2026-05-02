@@ -235,15 +235,18 @@ but by solving real business problems.”
 
     with col1:
         if st.button("🚀 Start Learning", use_container_width=True):
-            st.switch_page("pages/0_Login.py")
+            st.switch_page("pages/Login.py")
 
     with col2:
         if st.button("💳 View Pricing", use_container_width=True):
-            st.switch_page("pages/7_Pricing.py")  # or "7_Pricing" if that's your page name
+            st.switch_page("pages/Pricing.py")  # or "7_Pricing" if that's your page name
 
     st.info("You are using the Free version. Login to unlock more features.")
 
-    st.stop()
+    st.switch_page("dashboard.py")
+
+    st.write("USER:", st.session_state.get("user"))
+    st.write("USER_ID:", st.session_state.get("user_id"))
 
 # ---------------------------------
 # LOAD USER DATA FROM SUPABASE
@@ -275,11 +278,8 @@ st.sidebar.write(f"Credits: {st.session_state.get('answer_credits', 0)}")
 st.sidebar.markdown("---")
 
 if st.sidebar.button("🚪 Logout"):
-    st.session_state.pop("user", None)
-    st.session_state.pop("plan", None)
-    st.session_state.pop("answer_credits", None)
-
-    st.rerun()
+    st.session_state.clear()
+    st.switch_page("pages/Login.py")
 
 st.title("📊 ENTERPRISE ANALYTICS LAB")
 st.subheader("AI-Powered Business Intelligence Platform")
@@ -382,7 +382,7 @@ def show_tour():
     if plan == "free" and step == len(steps) - 1:
         st.warning("🔒 Unlock full answers with Premium or Answer Pack.")
         if st.button("🚀 Upgrade Now"):
-            st.switch_page("pages/7_Pricing.py")
+            st.switch_page("pages/Pricing.py")
 
 # ---------------------------------
 # CALL TOUR

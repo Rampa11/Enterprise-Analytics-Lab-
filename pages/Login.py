@@ -14,19 +14,21 @@ if st.button("Login"):
             {"email": email, "password": password}
         )
 
-        if res.user:
-            # ✅ STORE CORRECT VALUES
-            st.session_state["user"] = res.user.email
-            st.session_state["user_id"] = res.user.id
+        # 🔥 FIXED CONDITION
+        if res and res.session:
+
+            st.session_state["user"] = email
+            st.session_state["user_id"] = res.session.user.id
 
             st.success("Login successful")
-            st.rerun()
+
+            st.switch_page("dashboard.py")
 
         else:
-            st.error("Invalid login")
+            st.error("Invalid login credentials")
 
     except Exception as e:
-        st.error("Login failed")
+        st.error(f"Login failed: {e}")
 
 st.divider()
 
