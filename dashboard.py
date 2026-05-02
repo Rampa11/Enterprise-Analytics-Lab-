@@ -279,6 +279,7 @@ st.sidebar.markdown("---")
 
 if st.sidebar.button("🚪 Logout"):
     st.session_state.clear()
+    st.success("Logged out successfully")
     st.switch_page("pages/Login.py")
 
 st.title("📊 ENTERPRISE ANALYTICS LAB")
