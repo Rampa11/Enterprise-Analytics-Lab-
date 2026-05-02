@@ -14,14 +14,16 @@ if st.button("Login"):
             {"email": email, "password": password}
         )
 
-        st.session_state["user"] = res.user.email
-        st.session_state["user_id"] = res.user.id
+        if res.user:
+            # ✅ STORE CORRECT VALUES
+            st.session_state["user"] = res.user.email
+            st.session_state["user_id"] = res.user.id
 
-        upsert_user(res.user.email, res.user.id)
+            st.success("Login successful")
+            st.rerun()
 
-        st.success("Login successful")
-
-        st.switch_page("dashboard.py")
+        else:
+            st.error("Invalid login")
 
     except Exception as e:
         st.error("Login failed")
