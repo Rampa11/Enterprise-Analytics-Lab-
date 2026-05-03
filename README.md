@@ -2,7 +2,7 @@
 
 **Enterprise Analytics Lab** is an AI-powered platform designed to help users learn data analytics by solving real-world business problems.
 
-Instead of watching tutorials, users gain hands-on experience through simulated business scenarios, AI-generated datasets, and instant feedback systems.
+Instead of watching tutorials, users gain hands-on experience through simulated business scenarios, AI-generated datasets, and instant feedback systems. https://enterprise-analytics-lab.streamlit.app/
 
 ---
 
