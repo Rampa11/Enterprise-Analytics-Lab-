@@ -1,64 +1,81 @@
-# Enterprise Analytics Pipeline
+# 🚀 Enterprise Analytics Lab
 
-## Overview
+**Enterprise Analytics Lab** is an AI-powered platform designed to help users learn data analytics by solving real-world business problems.
 
-This project demonstrates an end-to-end enterprise analytics pipeline that simulates how organizations analyze operational data across Sales, Inventory, and Operations.
+Instead of watching tutorials, users gain hands-on experience through simulated business scenarios, AI-generated datasets, and instant feedback systems.
 
-The system ingests operational data, loads it into a PostgreSQL warehouse using a star schema, and generates analytical views that power business dashboards.
+---
 
-## Architecture
+## 🌍 Vision
 
-Data Generation → PostgreSQL Warehouse → Analytics Views → Dashboards
+To build a global platform where anyone can learn data analytics by solving real business problems.
 
-## Tech Stack
+---
 
-Python
-PostgreSQL
-SQL
-Power BI / Tableau
+## 🎯 Mission
 
-## Data Model
+To bridge the gap between theory and real-world analytics through AI-powered simulations.
 
-Fact Table
+---
 
-* fact_sales
+## 📈 Features
 
-Dimension Tables
+- 🤖 **AI Business Agent**  
+  Generate real-world business questions from datasets.
 
-* dim_products
-* dim_customers
+- 🧠 **AI Business Manager**  
+  Simulate consulting-style analytics projects.
 
-Operational Tables
+- 📊 **AI Dataset Generator**  
+  Create realistic datasets across multiple industries.
 
-* inventory
-* operations
+- 🧪 **Practice Lab**  
+  Solve analytics challenges and get AI-powered feedback.
 
-## Analytics Views
+- 🏆 **Leaderboard System**  
+  Track performance and compete with other users.
 
-sales_summary
-product_performance
-inventory_alerts
-operations_summary
+- 🔥 **Streaks & Badges**  
+  Build consistency and earn achievements.
 
-## Business Insights
+- 💳 **Monetization System**  
+  - Pay-per-answer credits  
+  - Premium subscription  
+  - Stripe-powered checkout
 
-The platform answers key business questions:
+---
 
-* What products generate the most revenue?
-* Which customers drive the most demand?
-* Which warehouses have slow delivery times?
-* Which products are at risk of stockout?
+## 🏗️ Tech Stack
 
-## Skills Demonstrated
+### Frontend
+- Streamlit
 
-Data Modeling
-SQL Analytics
-ETL Pipeline Design
-Business KPI Development
-Operational Analytics
+### Backend / AI
+- Python
+- OpenAI API
 
-## Interactive Dashboard
+### Database
+- Supabase (PostgreSQL)
 
-The analytics platform also includes a Streamlit dashboard for exploring key business metrics.
+### Payments
+- Stripe Checkout
+- Webhook (FastAPI on Render)
 
-Run the dashboard locally:
+### Deployment
+- Streamlit Cloud (App)
+- Render (Webhook Server)
+
+---
+
+## 🔐 Authentication
+
+- Email/password authentication via Supabase
+- Session-based access control
+- Secure logout and session handling
+
+---
+
+## 💰 Payment Architecture
+
+```text
+User → Stripe Checkout → Webhook (Render) → Supabase → App updates
