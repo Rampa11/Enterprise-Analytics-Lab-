@@ -37,14 +37,32 @@ st.subheader("Create Account")
 new_email = st.text_input("Email", key="signup_email")
 new_password = st.text_input("Password", type="password", key="signup_pass")
 
+full_name = st.text_input("Full Name")
+dob = st.date_input("Date of Birth")
+
 if st.button("Sign Up"):
 
     try:
-        supabase.auth.sign_up(
-            {"email": new_email, "password": new_password}
-        )
+        res = supabase.auth.sign_up({
+            "email": new_email,
+            "password": new_password
+        })
 
-        st.success("Account created")
+        if res.user:
+            # 🔥 Save extra info to your DB
+            supabase.table("users_profile").insert({
+                "id": res.user.id,
+                "email": new_email,
+                "full_name": full_name,
+                "dob": str(dob),
+                "plan": "free",
+                "credits": 0
+            }).execute()
 
-    except:
-        st.error("Signup failed")        
+            st.success("Account created. Check your email to verify.")
+
+        else:
+            st.error("Signup failed")
+
+    except Exception as e:
+        st.error(f"Signup error: {e}") 
