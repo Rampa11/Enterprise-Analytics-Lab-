@@ -45,7 +45,11 @@ with col2:
         if not email:
             st.error("Please login first")
         else:
-            url = create_checkout_session("answers", email)
+            url = create_checkout_session(
+                "answers",
+                email,
+                st.session_state.get("user_id")
+            )
 
             if url:
                 st.link_button("👉 Pay Now", url)
