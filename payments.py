@@ -58,6 +58,7 @@ def create_checkout_session(plan_type, email, user_id=None):
         )
         if "payment_success" in st.query_params:
             st.success("Payment successful! 🎉")
+            st.rerun()
 
         return session.url
 
