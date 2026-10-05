@@ -60,3 +60,4 @@ dist/
 *.db
 
 test_key.py
+.pytest_cache/

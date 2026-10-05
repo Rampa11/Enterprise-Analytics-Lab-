@@ -1,68 +1,36 @@
+"""Checkout redirects never modify access. Only signed webhooks do."""
 import stripe
-import os
-from dotenv import load_dotenv
+from auth import verify_user
+from lab.config import setting
 
-load_dotenv()
+def available(plan):
+    price = "STRIPE_ANSWERS_PRICE_ID" if plan=="answers" else "STRIPE_PREMIUM_PRICE_ID"
+    return bool(setting("STRIPE_SECRET_KEY") and setting(price) and setting("BILLING_ENABLED")=="true")
 
-stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+def create_checkout_session(plan_type, email=None, user_id=None):
+    if plan_type not in ("answers","premium") or not available(plan_type):
+        raise RuntimeError("Checkout is not available yet.")
+    user = verify_user()
+    stripe.api_key = setting("STRIPE_SECRET_KEY")
+    price = setting("STRIPE_ANSWERS_PRICE_ID" if plan_type=="answers" else "STRIPE_PREMIUM_PRICE_ID")
+    domain = setting("APP_URL","http://localhost:8501").rstrip("/")
+    metadata = {"plan":plan_type,"user_id":user.id}
+    args = dict(line_items=[{"price":price,"quantity":1}],mode="payment" if plan_type=="answers" else "subscription",
+        customer_email=user.email,client_reference_id=user.id,metadata=metadata,
+        success_url=domain+"/?checkout=returned",cancel_url=domain+"/Pricing")
+    if plan_type=="premium":
+        args["subscription_data"]={"metadata":metadata}
+    return stripe.checkout.Session.create(**args).url
 
 
-def create_checkout_session(plan_type, email, user_id=None):
-    """
-    Creates a Stripe checkout session.
-
-    plan_type: "answers" or "premium"
-    email: user email
-    user_id: Supabase user ID (IMPORTANT for webhook)
-    """
-
-    DOMAIN = os.getenv("APP_URL", "http://localhost:8501")
-
-    # ---------------------------------
-    # PLAN CONFIG
-    # ---------------------------------
-    if plan_type == "answers":
-        price_id = "price_1TCFglBoWdH4kCN5z628WPt7"
-        mode = "payment"
-
-    elif plan_type == "premium":
-        price_id = "price_1TCFdZBoWdH4kCN5DpwNtqDM"
-        mode = "subscription"
-
-    else:
-        return None
-
-    # ---------------------------------
-    # CREATE CHECKOUT SESSION
-    # ---------------------------------
-    try:
-        session = stripe.checkout.Session.create(
-            payment_method_types=["card"],
-            line_items=[{
-                "price": price_id,
-                "quantity": 1,
-            }],
-            mode=mode,
-        
-            customer_email=email,
-            client_reference_id=user_id,  # better than email
-
-            metadata={
-                "plan": plan_type,
-                "user_id": user_id if user_id else "",
-                "email": email
-            },
-
-            success_url=f"{DOMAIN}/?payment_success={plan_type}",
-            cancel_url=f"{DOMAIN}",
-        )
-        if "payment_success" in st.query_params:
-            st.success("Payment successful! 🎉")
-            st.rerun()
-
-        return session.url
-
-    except Exception as e:
-        import streamlit as st
-        st.error(f"Stripe error: {e}")
-        return None
+def billing_portal():
+    from lab.storage import admin_client
+    user = verify_user()
+    admin = admin_client()
+    if admin is None:
+        raise RuntimeError("Billing unavailable")
+    rows = admin.table("lab_profiles").select("stripe_customer_id").eq("user_id",user.id).execute().data
+    if not rows or not rows[0].get("stripe_customer_id"):
+        raise RuntimeError("No billing account")
+    stripe.api_key = setting("STRIPE_SECRET_KEY")
+    return stripe.billing_portal.Session.create(customer=rows[0]["stripe_customer_id"],return_url=setting("APP_URL","http://localhost:8501")+"/Pricing").url
