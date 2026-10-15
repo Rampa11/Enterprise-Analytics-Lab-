@@ -2,7 +2,11 @@
 
 A practical analytics learning workspace built with Streamlit. Choose an industry, inspect a full dataset, solve a business question, and turn the result into a recommendation.
 
-## Run
+## Try the app
+
+[Open Enterprise Analytics Lab](https://enterprise-analytics-lab.streamlit.app/)
+
+## Run locally
 
 Use Python 3.11 or 3.12.
 
@@ -62,6 +66,6 @@ python -m pytest tests -q
 
 The suite runs offline with mocked third-party services. Real Supabase and Stripe integration checks are separate deployment requirements.
 
-## Original project
+## Credits
 
 Created by Akpor Unukogbon (The Cardinal Way).
